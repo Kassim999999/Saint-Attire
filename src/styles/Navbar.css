@@ -1,0 +1,13 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 40px;
+    position: fixed;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.logo {
+    font-family: 'Anton', sans-serif;
+    font-size: 24px;
+}
