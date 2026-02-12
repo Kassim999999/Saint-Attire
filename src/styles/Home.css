@@ -1,0 +1,25 @@
+.hero {
+    height: 100vh;
+    background: url('/hero.jpg') center/cover no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.hero-content h1 {
+    font-size: 80px;
+}
+
+.hero-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 30px;
+    border: 2px solid #fff;
+    transition: 0.3s;
+}
+
+.hero-btn:hover {
+    background: #00ff88;
+    border: none;
+}
