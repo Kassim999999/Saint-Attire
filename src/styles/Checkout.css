@@ -1,0 +1,37 @@
+.checkout-page form {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin: auto;
+    gap: 15px;
+}
+
+.checkout-page input {
+    padding: 12px;
+    background: #111;
+    border: 1px solid #333;
+    color: white;
+}
+
+.checkout-page button {
+    padding: 12px;
+    background: #00ff88;
+    border: none;
+    font-weight: bold;
+}
+
+
+@media (max-width: 768px) {
+    .product-page {
+        grid-template-columns: 1fr;
+        padding: 100px 20px;
+    }
+
+    .hero h1 {
+        font-size: 40px;
+    }
+
+    .navbar {
+        padding: 15px 20px;
+    }
+}
