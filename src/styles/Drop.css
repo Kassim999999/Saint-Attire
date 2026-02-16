@@ -1,11 +1,35 @@
-.drop-page {
-    padding: 120px 40px;
-    text-align: center;
+.drop-header {
+    margin-bottom: 80px;
+}
+
+.drop-header h1 {
+    font-size: 48px;
+    letter-spacing: 3px;
 }
 
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 30px;
-    margin-top: 40px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 60px;
+}
+
+.product-card img {
+    width: 100%;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.product-card:hover img {
+    transform: scale(1.05);
+}
+
+.product-card p {
+    margin-top: 20px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.product-card span {
+    color: #aaa;
+    font-size: 14px;
 }

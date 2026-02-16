@@ -7,12 +7,14 @@ import Product from "./pages/Product";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import "./index.css";
+import Footer from "./components/Footer";
 
 function App() {
   return (
     <CartProvider>
       <BrowserRouter>
         <Navbar />
+        <Footer />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/drop" element={<Drop />} />
