@@ -13,6 +13,12 @@
     gap: 60px;
 }
 
+.product-card {
+    text-decoration: none;
+    color: white;
+    display: block;
+}
+
 .product-card img {
     width: 100%;
     display: block;

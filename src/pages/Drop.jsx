@@ -1,4 +1,5 @@
 import MainLayout from "../layouts/MainLayout"
+import { Link } from "react-router-dom"
 import "../styles/Drop.css"
 
 export default function Drop() {
@@ -9,17 +10,19 @@ export default function Drop() {
       </section>
 
       <section className="product-grid">
-        <div className="product-card">
+
+        <Link to="/product/1" className="product-card">
           <img src="/pants1.jpg" alt="Studded Pants" />
           <p>STUDDED BLACK PANTS</p>
           <span>KSH 950</span>
-        </div>
+        </Link>
 
-        <div className="product-card">
+        <Link to="/product/2" className="product-card">
           <img src="/jorts1.jpg" alt="Graphic Jorts" />
           <p>GRAPHIC JORTS</p>
           <span>KSH 1100</span>
-        </div>
+        </Link>
+
       </section>
     </MainLayout>
   )
