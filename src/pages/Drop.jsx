@@ -1,4 +1,5 @@
 import MainLayout from "../layouts/MainLayout"
+import { products } from "../data/products"
 import { Link } from "react-router-dom"
 import "../styles/Drop.css"
 
@@ -10,19 +11,17 @@ export default function Drop() {
       </section>
 
       <section className="product-grid">
-
-        <Link to="/product/1" className="product-card">
-          <img src="/pants1.jpg" alt="Studded Pants" />
-          <p>STUDDED BLACK PANTS</p>
-          <span>KSH 950</span>
-        </Link>
-
-        <Link to="/product/2" className="product-card">
-          <img src="/jorts1.jpg" alt="Graphic Jorts" />
-          <p>GRAPHIC JORTS</p>
-          <span>KSH 1100</span>
-        </Link>
-
+        {products.map((product) => (
+          <Link
+            to={`/product/${product.id}`}
+            key={product.id}
+            className="product-card"
+          >
+            <img src={product.image} alt={product.name} />
+            <p>{product.name}</p>
+            <span>KSH {product.price}</span>
+          </Link>
+        ))}
       </section>
     </MainLayout>
   )

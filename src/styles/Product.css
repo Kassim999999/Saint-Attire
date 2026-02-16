@@ -61,3 +61,28 @@
 .add-cart-btn:hover {
     opacity: 0.8;
 }
+
+
+.size-selector button {
+    padding: 10px 20px;
+    background: transparent;
+    border: 1px solid white;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.size-selector button:hover {
+    background: white;
+    color: black;
+}
+
+.active-size {
+    background: white;
+    color: black;
+}
+
+.add-cart-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
