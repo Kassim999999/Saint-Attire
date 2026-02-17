@@ -1,22 +1,80 @@
-import { useCart } from "../context/CartContext";
-import { Link } from "react-router-dom";
+import MainLayout from "../layouts/MainLayout"
+import { useCart } from "../context/CartContext"
+import "../styles/Cart.css"
 
 export default function Cart() {
-  const { cart, removeFromCart } = useCart();
-
-  const total = cart.reduce((sum, item) => sum + item.price, 0);
+  const {
+    cart,
+    removeFromCart,
+    updateQuantity,
+    subtotal
+  } = useCart()
 
   return (
-    <div className="cart-page">
-      <h1>CART</h1>
-      {cart.map((item, index) => (
-        <div key={index}>
-          <p>{item.name} - KES {item.price}</p>
-          <button onClick={() => removeFromCart(index)}>Remove</button>
+    <MainLayout>
+      <h1 className="cart-title">YOUR CART</h1>
+
+      {cart.length === 0 ? (
+        <p className="empty-cart">Cart is empty.</p>
+      ) : (
+        <div className="cart-container">
+
+          <div className="cart-items">
+            {cart.map((item) => (
+              <div
+                key={`${item.id}-${item.selectedSize}`}
+                className="cart-item"
+              >
+                <img src={item.image} alt={item.name} />
+
+                <div className="cart-info">
+                  <h3>{item.name}</h3>
+                  <p>Size: {item.selectedSize}</p>
+                  <p>KSH {item.price}</p>
+
+                  <div className="quantity-controls">
+                    <button
+                      onClick={() =>
+                        updateQuantity(item.id, item.selectedSize, -1)
+                      }
+                    >
+                      -
+                    </button>
+
+                    <span>{item.quantity}</span>
+
+                    <button
+                      onClick={() =>
+                        updateQuantity(item.id, item.selectedSize, 1)
+                      }
+                    >
+                      +
+                    </button>
+                  </div>
+
+                  <button
+                    className="remove-btn"
+                    onClick={() =>
+                      removeFromCart(item.id, item.selectedSize)
+                    }
+                  >
+                    REMOVE
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="cart-summary">
+            <h2>Subtotal</h2>
+            <p>KSH {subtotal}</p>
+            <button className="checkout-btn">
+              CHECKOUT
+            </button>
+          </div>
+
         </div>
-      ))}
-      <h2>Total: KES {total}</h2>
-      <Link to="/checkout">Proceed to Checkout</Link>
-    </div>
-  );
+      )}
+    </MainLayout>
+  )
 }
