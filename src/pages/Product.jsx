@@ -24,6 +24,8 @@ export default function Product() {
   }
 
   const { addToCart } = useCart()
+  const [added, setAdded] = useState(false)
+
 
 
   return (
@@ -64,10 +66,15 @@ export default function Product() {
 <button
   className="add-cart-btn"
   disabled={!selectedSize}
-  onClick={() => addToCart(product, selectedSize)}
+  onClick={() => {
+    addToCart(product, selectedSize)
+    setAdded(true)
+    setTimeout(() => setAdded(false), 1500)
+  }}
 >
-  {selectedSize ? "ADD TO CART" : "SELECT SIZE"}
+  {added ? "ADDED ✓" : selectedSize ? "ADD TO CART" : "SELECT SIZE"}
 </button>
+
 
 
         </div>

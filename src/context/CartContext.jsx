@@ -1,36 +1,44 @@
-import { createContext, useContext, useState } from "react"
+import { createContext, useContext, useState , useEffect} from "react"
 
 const CartContext = createContext()
 
 export function CartProvider({ children }) {
-  const [cart, setCart] = useState([])
+  const [cart, setCart] = useState(() => {
+  const savedCart = localStorage.getItem("fly-cart")
+  return savedCart ? JSON.parse(savedCart) : []
+})
+
 
   // ✅ Add to Cart
-  const addToCart = (product, selectedSize) => {
-    setCart((prev) => {
-      const existingItem = prev.find(
-        (item) =>
-          item.id === product.id &&
-          item.selectedSize === selectedSize
-      )
+const addToCart = (product, selectedSize) => {
+  setCart((prev) => {
+    const existingItem = prev.find(
+      (item) =>
+        item.id === product.id &&
+        item.selectedSize === selectedSize
+    )
 
-      // If same product + size exists → increase quantity
-      if (existingItem) {
-        return prev.map((item) =>
-          item.id === product.id &&
-          item.selectedSize === selectedSize
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        )
+    // If already in cart
+    if (existingItem) {
+      if (existingItem.quantity >= product.stock) {
+        return prev // stop if max stock reached
       }
 
-      // Otherwise add new item
-      return [
-        ...prev,
-        { ...product, selectedSize, quantity: 1 }
-      ]
-    })
-  }
+      return prev.map((item) =>
+        item.id === product.id &&
+        item.selectedSize === selectedSize
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      )
+    }
+
+    return [
+      ...prev,
+      { ...product, selectedSize, quantity: 1 }
+    ]
+  })
+}
+
 
   // ✅ Remove from Cart
   const removeFromCart = (id, size) => {
@@ -43,18 +51,22 @@ export function CartProvider({ children }) {
   }
 
   // ✅ Update Quantity
-  const updateQuantity = (id, size, amount) => {
-    setCart((prev) =>
-      prev.map((item) =>
-        item.id === id && item.selectedSize === size
-          ? {
-              ...item,
-              quantity: Math.max(1, item.quantity + amount)
-            }
-          : item
-      )
-    )
-  }
+const updateQuantity = (id, size, amount) => {
+  setCart((prev) =>
+    prev.map((item) => {
+      if (item.id === id && item.selectedSize === size) {
+        const newQty = item.quantity + amount
+
+        if (newQty < 1) return item
+        if (newQty > item.stock) return item
+
+        return { ...item, quantity: newQty }
+      }
+      return item
+    })
+  )
+}
+
 
   // ✅ Cart Count (total quantity, not just items)
   const cartCount = cart.reduce(
@@ -67,6 +79,11 @@ export function CartProvider({ children }) {
     (total, item) => total + item.price * item.quantity,
     0
   )
+
+  useEffect(() => {
+  localStorage.setItem("fly-cart", JSON.stringify(cart))
+}, [cart])
+
 
   return (
     <CartContext.Provider
