@@ -36,3 +36,19 @@
 .nav-right a:hover {
     opacity: 0.6;
 }
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0 20px;
+        height: 70px;
+    }
+
+    .logo {
+        font-size: 16px;
+    }
+
+    .nav-right a {
+        margin-left: 20px;
+        font-size: 12px;
+    }
+}

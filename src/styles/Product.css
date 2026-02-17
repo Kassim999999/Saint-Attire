@@ -86,3 +86,19 @@
     opacity: 0.4;
     cursor: not-allowed;
 }
+
+
+@media (max-width: 768px) {
+    .product-page {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .product-info h1 {
+        font-size: 28px;
+    }
+
+    .product-desc {
+        max-width: 100%;
+    }
+}

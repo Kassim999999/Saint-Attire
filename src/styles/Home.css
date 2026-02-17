@@ -39,3 +39,14 @@
     background: white;
     color: black;
 }
+
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 60px;
+    }
+
+    .hero-sub {
+        font-size: 16px;
+    }
+}

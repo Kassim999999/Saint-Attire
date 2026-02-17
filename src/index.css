@@ -40,3 +40,12 @@ a {
 button {
   cursor: pointer;
 }
+
+
+@media (max-width: 768px) {
+  .page-wrapper {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 100px;
+  }
+}

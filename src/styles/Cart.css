@@ -58,3 +58,23 @@
 .empty-cart {
     color: #888;
 }
+
+
+@media (max-width: 768px) {
+    .cart-container {
+        grid-template-columns: 1fr;
+    }
+
+    .cart-summary {
+        margin-top: 40px;
+    }
+
+    .cart-item {
+        flex-direction: column;
+    }
+
+    .cart-item img {
+        width: 100%;
+        max-width: 200px;
+    }
+}
