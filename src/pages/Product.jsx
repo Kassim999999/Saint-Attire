@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom"
 import MainLayout from "../layouts/MainLayout"
 import { products } from "../data/products"
+import { useCart } from "../context/CartContext"
 import "../styles/Product.css"
 import { useState } from "react"
 
@@ -21,6 +22,9 @@ export default function Product() {
       </MainLayout>
     )
   }
+
+  const { addToCart } = useCart()
+
 
   return (
     <MainLayout>
@@ -57,14 +61,14 @@ export default function Product() {
             ))}
           </div>
 
-          <button
-            className="add-cart-btn"
-            disabled={!selectedSize}
-          >
-            {selectedSize
-              ? "ADD TO CART"
-              : "SELECT SIZE"}
-          </button>
+<button
+  className="add-cart-btn"
+  disabled={!selectedSize}
+  onClick={() => addToCart(product, selectedSize)}
+>
+  {selectedSize ? "ADD TO CART" : "SELECT SIZE"}
+</button>
+
 
         </div>
 
