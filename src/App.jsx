@@ -14,7 +14,6 @@ function App() {
     <CartProvider>
       <BrowserRouter>
         <Navbar />
-        <Footer />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/drop" element={<Drop />} />
@@ -22,6 +21,7 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </CartProvider>
   );
