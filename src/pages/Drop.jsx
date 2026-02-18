@@ -16,27 +16,38 @@ export default function Drop() {
       </section>
 
       {/* Product Grid */}
-      <section className="product-grid">
-        {products.map((product) => (
-          <Link
-            to={`/product/${product.id}`}
-            key={product.id}
-            className="product-card"
-          >
-            <div className="product-image-wrapper">
-              <img src={product.image} alt={product.name} />
-              <div className="product-overlay">
-                <span>VIEW PRODUCT</span>
-              </div>
-            </div>
+<section className="product-grid">
+  {products.map((product) => (
+    <Link
+      to={`/product/${product.id}`}
+      key={product.id}
+      className="product-card"
+    >
+      <div className="product-image-wrapper">
+        <img
+          src={product.image}
+          alt={product.name}
+          className="product-img primary"
+        />
+        <img
+          src={product.image2}
+          alt={product.name}
+          className="product-img secondary"
+        />
 
-            <div className="product-info">
-              <p>{product.name}</p>
-              <span>KSH {product.price}</span>
-            </div>
-          </Link>
-        ))}
-      </section>
+        <div className="product-overlay">
+          <span>VIEW PIECE</span>
+        </div>
+      </div>
+
+      <div className="product-info">
+        <p>{product.name}</p>
+        <span>KSH {product.price}</span>
+      </div>
+    </Link>
+  ))}
+</section>
+
 
     </MainLayout>
   )

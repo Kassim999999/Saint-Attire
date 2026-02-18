@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import { useCart } from "../context/CartContext"
 import logoIcon from "../assets/Saint-logo.png"
-import Cart from "../assets/Person.png"
+import Cart from "../assets/shopping-cart.png"
 import "../styles/Navbar.css"
 
 export default function Navbar() {
@@ -11,7 +11,7 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <div className="nav-left">
-        <img src={logoIcon} alt="SAINT logo" className="nav-logo" />
+       <Link to= "/"> <img src={logoIcon} alt="SAINT logo" className="nav-logo" /></Link>
       </div>
 
       <div className="nav-right">

@@ -33,6 +33,7 @@
 
 .cart{
     height: 35px;
+    margin-bottom: -10px;
 }
 
 .nav-right a:hover {
