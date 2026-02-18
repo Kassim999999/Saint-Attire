@@ -1,43 +1,69 @@
 .hero {
-    min-height: 80vh;
-
+    position: relative;
+    height: 100vh;
     display: flex;
-    flex-direction: column;
     justify-content: center;
+    align-items: center;
+    background: #fff;
+    overflow: hidden;
 }
 
-.hero-title {
-    font-size: 120px;
-    line-height: 0.9;
-    letter-spacing: 4px;
-    margin-bottom: 40px;
+/* huge faded watermark */
+.hero-bg-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1.1);
+    width: 1500px;
+    opacity: 0.05;
+    pointer-events: none;
 }
 
-.hero-sub {
-    font-size: 18px;
-    color: #aaa;
-    margin-bottom: 50px;
-    max-width: 400px;
+/* centered content */
+.hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+
+    animation: heroFade 1.2s ease forwards;
 }
 
+/* brand text */
+.hero-title-logo {
+    width: 140px;
+    /* adjust visual weight */
+    margin-bottom: 25px;
+    animation: heroFade 1.2s ease forwards;
+}
+
+/* button */
 .hero-btn {
     display: inline-block;
-    width: fit-content;
-
-    padding: 15px 40px;
-    border: 1px solid white;
-
+    padding: 14px 38px;
+    border: 2px solid #9C0412;
     text-decoration: none;
-    color: white;
-    font-size: 14px;
+    color: #9C0412;
+    font-size: 13px;
     letter-spacing: 2px;
-
     transition: 0.3s ease;
 }
 
 .hero-btn:hover {
-    background: white;
-    color: black;
+    background: #9C0412;
+    color: white;
+}
+
+/* entrance animation */
+@keyframes heroFade {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 

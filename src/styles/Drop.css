@@ -1,17 +1,37 @@
-.drop-header {
-    margin-bottom: 80px;
+/* ===== DROP HERO ===== */
+
+.drop-hero {
+    padding: 120px 0 80px;
+    text-align: center;
 }
 
-.drop-header h1 {
-    font-size: 48px;
-    letter-spacing: 3px;
+.drop-hero h1 {
+    font-size: 72px;
+    letter-spacing: 6px;
+    font-weight: 700;
 }
+
+.drop-hero p {
+    margin-top: 10px;
+    letter-spacing: 3px;
+    font-size: 14px;
+    color: #888;
+}
+
+
+/* ===== PRODUCT GRID ===== */
 
 .product-grid {
+    width: 90%;
+    max-width: 1400px;
+    margin: 0 auto 120px;
+
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 60px;
+    gap: 80px;
 }
+
+/* ===== PRODUCT CARD ===== */
 
 .product-card {
     text-decoration: none;
@@ -19,30 +39,75 @@
     display: block;
 }
 
-.product-card img {
+/* image wrapper for overlay effect */
+.product-image-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.product-image-wrapper img {
     width: 100%;
     display: block;
-    transition: transform 0.4s ease;
+    transition: transform 0.6s ease;
 }
 
+/* overlay */
+.product-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.product-overlay span {
+    border: 1px solid white;
+    padding: 12px 28px;
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+
+/* hover interactions */
 .product-card:hover img {
-    transform: scale(1.05);
+    transform: scale(1.08);
 }
 
-.product-card p {
+.product-card:hover .product-overlay {
+    opacity: 1;
+}
+
+/* info section */
+.product-info {
     margin-top: 20px;
+}
+
+.product-info p {
     font-weight: 600;
     letter-spacing: 1px;
 }
 
-.product-card span {
+.product-info span {
+    display: block;
+    margin-top: 6px;
     color: #aaa;
     font-size: 14px;
 }
 
+
+/* ===== MOBILE ===== */
+
 @media (max-width: 768px) {
+    .drop-hero h1 {
+        font-size: 42px;
+    }
+
     .product-grid {
         grid-template-columns: 1fr;
-        gap: 40px;
+        gap: 50px;
     }
 }

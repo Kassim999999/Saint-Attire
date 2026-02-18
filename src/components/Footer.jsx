@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import fullLogo from "../assets/primary-logo.png"
 import "../styles/Footer.css"
 
 export default function Footer() {
@@ -6,8 +7,8 @@ export default function Footer() {
     <footer className="footer">
       <div className="footer-top">
         <div className="footer-brand">
-          <h2>FLY.</h2>
-          <p>Independent Streetwear Brand</p>
+          <img src={fullLogo} alt="SAINT logo" className="footer-logo" />
+          <p>Work With Intention</p>
         </div>
 
         <div className="footer-links">
@@ -26,15 +27,14 @@ export default function Footer() {
 
           <div>
             <h4>SOCIAL</h4>
-            <a href="#">Instagram</a>
-            <a href="#">TikTok</a>
-            <a href="#">Twitter</a>
+            <a href="https://www.instagram.com/saint.attire_?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://www.tiktok.com/@saint.attire._?is_from_webapp=1&sender_device=pc"><i class="fa-brands fa-tiktok"></i></a>
           </div>
         </div>
       </div>
 
       <div className="footer-bottom">
-        <p>© 2026 FLY. All Rights Reserved.</p>
+        <p>© 2026 SAINT. All Rights Reserved.</p>
       </div>
     </footer>
   )

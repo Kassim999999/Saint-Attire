@@ -66,15 +66,15 @@
 .size-selector button {
     padding: 10px 20px;
     background: transparent;
-    border: 1px solid white;
-    color: white;
+    border: 1px solid rgb(0, 0, 0);
+    color: rgb(0, 0, 0);
     cursor: pointer;
     transition: 0.3s ease;
 }
 
 .size-selector button:hover {
-    background: white;
-    color: black;
+    background: #9C0412;
+    color: rgb(255, 255, 255);
 }
 
 .active-size {

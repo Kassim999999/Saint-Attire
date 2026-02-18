@@ -11,26 +11,28 @@
 
     padding: 0 60px;
 
-    background: #000;
+    background: #ffffff;
     border-bottom: 1px solid #111;
     z-index: 1000;
 }
 
-.logo {
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-decoration: none;
-    color: white;
+.nav-logo {
+    height: 108px;
+    margin-left: -40px;
+    object-fit: contain;
 }
 
 .nav-right a {
     margin-left: 40px;
     text-decoration: none;
-    color: white;
-    font-size: 14px;
+    color: #9C0412;
+    font-size: 24px;
     letter-spacing: 1px;
     transition: 0.3s ease;
+}
+
+.cart{
+    height: 35px;
 }
 
 .nav-right a:hover {

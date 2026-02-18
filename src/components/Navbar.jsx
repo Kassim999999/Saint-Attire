@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom"
 import { useCart } from "../context/CartContext"
+import logoIcon from "../assets/Saint-logo.png"
+import Cart from "../assets/Person.png"
 import "../styles/Navbar.css"
 
 export default function Navbar() {
@@ -9,12 +11,12 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <div className="nav-left">
-        <Link to="/" className="logo">FLY SEASON</Link>
+        <img src={logoIcon} alt="SAINT logo" className="nav-logo" />
       </div>
 
       <div className="nav-right">
-        <Link to="/drop">DROP 01</Link>
-        <Link to="/cart">CART ({cartCount})</Link>
+        <Link to="/drop">Drop</Link>
+        <Link to="/cart"><img src={Cart} alt="cart" className="cart" /> ({cartCount})</Link>
       </div>
     </nav>
   )

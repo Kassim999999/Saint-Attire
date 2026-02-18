@@ -1,5 +1,7 @@
 import MainLayout from "../layouts/MainLayout"
 import { Link } from "react-router-dom"
+import starIcon from "../assets/msg.png"
+import heroLogo from "../assets/Saint-logo.png"
 import "../styles/Home.css"
 
 export default function Home() {
@@ -7,19 +9,15 @@ export default function Home() {
     <MainLayout>
       <section className="hero">
 
-        <h1 className="hero-title">
-          FLY<br />SEASON
-        </h1>
+        {/* watermark background */}
+        <img src={starIcon} className="hero-bg-logo" alt="logo" />
 
-        <p className="hero-sub">
-          Graphic-heavy urban wear.
-          <br />
-          Built different.
-        </p>
-
-        <Link to="/drop" className="hero-btn">
-          ENTER DROP 01
-        </Link>
+        {/* foreground */}
+        <div className="hero-content">
+          <Link to="/drop" className="hero-btn">
+            ENTER DROP 01
+          </Link>
+        </div>
 
       </section>
     </MainLayout>
