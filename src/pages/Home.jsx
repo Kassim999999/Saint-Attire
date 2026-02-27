@@ -1,7 +1,6 @@
 import MainLayout from "../layouts/MainLayout"
 import { Link } from "react-router-dom"
 import starIcon from "../assets/msg.png"
-import heroLogo from "../assets/Saint-logo.png"
 import "../styles/Home.css"
 
 export default function Home() {

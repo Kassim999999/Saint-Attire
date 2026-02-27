@@ -10,14 +10,25 @@ export default function Navbar() {
 
   return (
     <nav className="navbar">
+
+      {/* LEFT MOTTO */}
       <div className="nav-left">
-       <Link to= "/"> <img src={logoIcon} alt="SAINT logo" className="nav-logo" /></Link>
+        <span className="nav-motto">WORK WITH INTENTION</span>
       </div>
 
+      {/* CENTER LOGO */}
+      <Link to="/" className="nav-center">
+        <img src={logoIcon} alt="SAINT logo" className="nav-logo" />
+      </Link>
+
+      {/* RIGHT SIDE */}
       <div className="nav-right">
-        <Link to="/drop">Drop</Link>
-        <Link to="/cart"><img src={Cart} alt="cart" className="cart" /> ({cartCount})</Link>
+        <Link to="/drop">NEW</Link>
+        <Link to="/cart">
+          <img src={Cart} alt="cart" className="cart" /> ({cartCount})
+        </Link>
       </div>
+
     </nav>
   )
 }

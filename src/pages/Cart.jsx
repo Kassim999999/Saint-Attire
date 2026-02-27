@@ -10,6 +10,36 @@ export default function Cart() {
     subtotal
   } = useCart()
 
+const handleCheckout = async () => {
+  const response = await fetch("http://localhost:8000/initialize-payment", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      cart,
+      customer: {
+        full_name: "Test User",
+        email: "test@email.com",
+        phone: "0712345678",
+        address: "Nairobi"
+      }
+    })
+  });
+
+  const data = await response.json();
+
+  console.log(data);
+
+  if (data.status) {
+    window.location.href = data.data.authorization_url;
+  } else {
+    alert("Payment initialization failed");
+  }
+};
+
+
+
   return (
     <MainLayout>
       <h1 className="cart-title">YOUR CART</h1>
@@ -68,7 +98,7 @@ export default function Cart() {
           <div className="cart-summary">
             <h2>Subtotal</h2>
             <p>KSH {subtotal}</p>
-            <button className="checkout-btn">
+            <button onClick={handleCheckout} className="checkout-btn">
               CHECKOUT
             </button>
           </div>

@@ -27,8 +27,8 @@ export default function Footer() {
 
           <div>
             <h4>SOCIAL</h4>
-            <a href="https://www.instagram.com/saint.attire_?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><i class="fa-brands fa-instagram"></i></a>
-            <a href="https://www.tiktok.com/@saint.attire._?is_from_webapp=1&sender_device=pc"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="https://www.instagram.com/saint.attire_?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><i className="fa-brands fa-instagram"></i></a>
+            <a href="https://www.tiktok.com/@saint.attire._?is_from_webapp=1&sender_device=pc"><i className="fa-brands fa-tiktok"></i></a>
           </div>
         </div>
       </div>
@@ -36,6 +36,17 @@ export default function Footer() {
       <div className="footer-bottom">
         <p>© 2026 SAINT. All Rights Reserved.</p>
       </div>
+
+      <div className="adm-btn">
+<div className="adm-btn">
+  <Link to="/admin-login" className="admin-link">
+    Only Admins Can Access This
+  </Link>
+</div>
+
+
+</div>
+
     </footer>
   )
 }

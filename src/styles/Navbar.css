@@ -6,52 +6,119 @@
     height: 80px;
 
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: flex-end;
+    /* push links to right */
 
     padding: 0 60px;
-
-    background: #ffffff;
-    border-bottom: 1px solid #111;
+    background: rgba(255, 255, 255, 0.85);
     z-index: 1000;
+
+    /* REMOVED the border line */
+    border-bottom: none;
+}
+
+/* LEFT MOTTO */
+.nav-left {
+    position: absolute;
+    left: 60px;
+    display: flex;
+    align-items: center;
+}
+
+.nav-motto {
+    font-size: 14px;
+    letter-spacing: 3px;
+    color: #9C0412;
+    font-weight: 500;
+    white-space: nowrap;
+    /* prevents wrapping */
+}
+
+/* PERFECTLY CENTERED LOGO */
+.nav-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .nav-logo {
-    height: 108px;
-    margin-left: -40px;
+    height: 150px;
     object-fit: contain;
+}
+
+/* RIGHT SIDE LINKS */
+.nav-right {
+    display: flex;
+    align-items: center;
 }
 
 .nav-right a {
     margin-left: 40px;
     text-decoration: none;
     color: #9C0412;
-    font-size: 24px;
+    font-size: 20px;
     letter-spacing: 1px;
     transition: 0.3s ease;
 }
 
-.cart{
-    height: 35px;
-    margin-bottom: -10px;
+.cart {
+    height: 30px;
+    margin-bottom: -6px;
 }
 
 .nav-right a:hover {
     opacity: 0.6;
 }
 
+/* MOBILE */
 @media (max-width: 768px) {
+
     .navbar {
-        padding: 0 20px;
-        height: 70px;
+        height: 65px;
+        padding: 0 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* logo centered base */
     }
 
-    .logo {
-        font-size: 16px;
+    /* Hide motto on mobile */
+    .nav-left {
+        display: none;
+    }
+
+    /* Perfect center logo */
+    .nav-center {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .nav-logo {
+        height: 55px;
+    }
+
+    /* Right side clean alignment */
+    .nav-right {
+        position: absolute;
+        right: 18px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
     }
 
     .nav-right a {
-        margin-left: 20px;
-        font-size: 12px;
+        font-size: 13px;
+        letter-spacing: 1px;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .cart {
+        height: 20px;
+        margin: 0;
     }
 }

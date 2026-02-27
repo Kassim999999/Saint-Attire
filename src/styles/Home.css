@@ -5,7 +5,7 @@
     justify-content: center;
     align-items: center;
     background: #fff;
-    overflow: hidden;
+    overflow: visible;
 }
 
 /* huge faded watermark */
@@ -13,9 +13,16 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(1.1);
-    width: 1500px;
-    opacity: 0.05;
+    transform: translate(-50%, -50%);
+
+    width: 90vw;
+    /* responsive width */
+    max-width: 1500px;
+    /* keeps desktop size */
+    height: auto;
+    /* prevents distortion */
+
+    opacity: 0.2;
     pointer-events: none;
 }
 
@@ -68,6 +75,10 @@
 
 
 @media (max-width: 768px) {
+
+    .hero{
+        overflow: hidden;
+    }
     .hero-title {
         font-size: 60px;
     }
@@ -75,4 +86,17 @@
     .hero-sub {
         font-size: 16px;
     }
+
+    .hero-content{
+        margin-top: -13vh;
+    }
+
+                .hero-bg-logo {
+                    top: 50%;
+                    transform: translate(-55%, -75%);
+                    width: 110vw;
+                    /* makes it bigger but still responsive */
+                    opacity: 0.3;
+                    /* slightly more visible on small screens */
+                }
 }
