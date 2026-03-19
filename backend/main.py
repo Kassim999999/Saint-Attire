@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, Header, HTTPException, Depends
+from fastapi import FastAPI, Request, Header, HTTPException, Depends, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.responses import StreamingResponse
@@ -13,13 +13,14 @@ from pydantic import BaseModel
 from io import StringIO
 
 from database import engine, SessionLocal, get_db
-from models import Base, Order
+from models import Base, Order, Product
 
 import hashlib
 import hmac
 import requests
 import os
 import csv
+import shutil
 
 # ------------------------------
 # Load environment variables
@@ -35,7 +36,7 @@ Base.metadata.create_all(bind=engine)
 # ------------------------------
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:5174"],
+    allow_origins=["http://localhost:5173", "http://localhost:5174", "http://localhost:5175"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -77,6 +78,29 @@ class OrderResponse(BaseModel):
     payment_reference: Optional[str]
     status: str
     created_at: datetime
+
+    class Config:
+        orm_mode = True
+
+from typing import Optional
+
+class ProductCreate(BaseModel):
+    name: str
+    price: float
+    description: str
+    image: str
+    image2: Optional[str] = None
+    stock: int
+
+
+class ProductResponse(BaseModel):
+    id: int
+    name: str
+    price: float
+    description: str
+    image: str
+    image2: Optional[str]
+    stock: int
 
     class Config:
         orm_mode = True
@@ -351,3 +375,87 @@ def export_orders(
         media_type="text/csv",
         headers={"Content-Disposition": "attachment; filename=orders.csv"},
     )
+
+
+@app.post("/admin/products", response_model=ProductResponse)
+def create_product(
+    product: ProductCreate,
+    db: Session = Depends(get_db),
+    admin: str = Depends(get_current_admin),
+):
+
+    new_product = Product(**product.dict())
+
+    db.add(new_product)
+    db.commit()
+    db.refresh(new_product)
+
+    return new_product
+
+
+@app.get("/products", response_model=List[ProductResponse])
+def get_products(db: Session = Depends(get_db)):
+    return db.query(Product).order_by(Product.id.desc()).all()
+
+@app.get("/products/{product_id}", response_model=ProductResponse)
+def get_single_product(product_id: int, db: Session = Depends(get_db)):
+    product = db.query(Product).filter(Product.id == product_id).first()
+
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+
+    return product
+
+
+@app.put("/admin/products/{product_id}")
+def update_product(
+    product_id: int,
+    product: ProductCreate,
+    db: Session = Depends(get_db),
+    admin: str = Depends(get_current_admin),
+):
+
+    db_product = db.query(Product).filter(Product.id == product_id).first()
+
+    if not db_product:
+        raise HTTPException(status_code=404, detail="Product not found")
+
+    for key, value in product.dict().items():
+        setattr(db_product, key, value)
+
+    db.commit()
+    db.refresh(db_product)
+
+    return db_product
+
+
+@app.delete("/admin/products/{product_id}")
+def delete_product(
+    product_id: int,
+    db: Session = Depends(get_db),
+    admin: str = Depends(get_current_admin),
+):
+
+    product = db.query(Product).filter(Product.id == product_id).first()
+
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+
+    db.delete(product)
+    db.commit()
+
+    return {"message": "Product deleted"}
+
+
+@app.post("/upload")
+async def upload_image(file: UploadFile = File(...)):
+    file_location = f"uploads/{file.filename}"
+
+    with open(file_location, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+
+    return {"image_url": f"http://127.0.0.1:8000/uploads/{file.filename}"}
+
+from fastapi.staticfiles import StaticFiles
+
+app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")

@@ -1,34 +1,97 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CartProvider } from "./context/CartContext";
-import Navbar from "./components/Navbar";
+
+import MainLayout from "./layouts/MainLayout";
+
 import Home from "./pages/Home";
 import Drop from "./pages/Drop";
 import Product from "./pages/Product";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
-import "./index.css";
-import Footer from "./components/Footer";
-import Admin from "./pages/Admin";
-import AdminLogin from "./pages/AdminLogin";
+import AdminLogin from "./pages/AdminLogin"
 
+import AdminLayout from "./layouts/AdminLayout";
+
+import Dashboard from "./pages/admin/Dashboard";
+import Orders from "./pages/admin/Orders";
+import Products from "./pages/admin/Products";
+import Analytics from "./pages/admin/Analytics";
+
+
+import "./index.css";
 
 function App() {
   return (
     <CartProvider>
       <BrowserRouter>
-        <Navbar />
+
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/drop" element={<Drop />} />
-          <Route path="/product/:id" element={<Product />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/admin-login" element={<AdminLogin />} />
+
+          {/* STORE PAGES */}
+          <Route
+            path="/"
+            element={
+              <MainLayout>
+                <Home />
+              </MainLayout>
+            }
+          />
+
+          <Route
+            path="/drop"
+            element={
+              <MainLayout>
+                <Drop />
+              </MainLayout>
+            }
+          />
+
+          <Route
+            path="/product/:id"
+            element={
+              <MainLayout>
+                <Product />
+              </MainLayout>
+            }
+          />
+
+          <Route
+            path="/cart"
+            element={
+              <MainLayout>
+                <Cart />
+              </MainLayout>
+            }
+          />
+
+          <Route
+            path="/checkout"
+            element={
+              <MainLayout>
+                <Checkout />
+              </MainLayout>
+            }
+          />
+
+          {/* ADMIN PAGES (NO LAYOUT) */}
+<Route path="/admin-login" element={<AdminLogin />} />
+<Route path="/admin" element={<AdminLayout />}>
+
+  <Route index element={<Dashboard />} />
+
+  <Route path="orders" element={<Orders />} />
+
+  <Route path="products" element={<Products />} />
+
+  <Route path="analytics" element={<Analytics />} />
+
+</Route>
+
         </Routes>
-        <Footer />
+
       </BrowserRouter>
     </CartProvider>
   );
 }
+
 export default App;

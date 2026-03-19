@@ -1,3 +1,7 @@
+/* =========================
+   HERO SECTION
+========================= */
+
 .hero {
     position: relative;
     height: 100vh;
@@ -8,42 +12,56 @@
     overflow: visible;
 }
 
-/* huge faded watermark */
+/* =========================
+   HERO BACKGROUND VERSE
+   (Option 1 – Soft Fade + Scale)
+========================= */
+
 .hero-bg-logo {
     position: absolute;
     top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    left: 45%;
+    transform: translate(-50%, -50%) scale(1.05);
 
     width: 90vw;
-    /* responsive width */
     max-width: 1500px;
-    /* keeps desktop size */
     height: auto;
-    /* prevents distortion */
 
-    opacity: 0.2;
+    opacity: 0;
     pointer-events: none;
+
+    animation: verseReveal 2.5s ease forwards;
 }
 
-/* centered content */
+@keyframes verseReveal {
+    to {
+        opacity: 0.2;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* =========================
+   HERO CONTENT
+========================= */
+
 .hero-content {
     position: relative;
     z-index: 2;
     text-align: center;
-
-    animation: heroFade 1.2s ease forwards;
 }
 
-/* brand text */
-.hero-title-logo {
-    width: 140px;
-    /* adjust visual weight */
-    margin-bottom: 25px;
-    animation: heroFade 1.2s ease forwards;
+/* =========================
+   BUTTON + MICRO COPY
+========================= */
+
+.hero-btn,
+.hero-subline {
+    opacity: 0;
+    transform: translateY(15px);
 }
 
-/* button */
+/* Button */
+
 .hero-btn {
     display: inline-block;
     padding: 14px 38px;
@@ -53,6 +71,8 @@
     font-size: 13px;
     letter-spacing: 2px;
     transition: 0.3s ease;
+
+    animation: heroFade 1s ease forwards;
 }
 
 .hero-btn:hover {
@@ -60,43 +80,85 @@
     color: white;
 }
 
-/* entrance animation */
-@keyframes heroFade {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
+/* Subline */
 
+.hero-subline {
+    margin-top: 18px;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: rgb(0, 0, 0);
+
+    animation: heroFade 1s ease forwards;
+    animation-delay: 0.4s;
+}
+
+/* Fade animation */
+
+@keyframes heroFade {
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
+/* =========================
+   SCROLL INDICATOR
+========================= */
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    letter-spacing: 4px;
+    opacity: 0.4;
+    animation: float 2.5s ease-in-out infinite;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateX(-50%) translateY(0px);
+    }
+
+    50% {
+        transform: translateX(-50%) translateY(6px);
+    }
+}
+
+/* =========================
+   MOBILE STYLES
+========================= */
 
 @media (max-width: 768px) {
 
-    .hero{
+    .hero {
+        height: 100vh;
         overflow: hidden;
     }
-    .hero-title {
-        font-size: 60px;
-    }
 
-    .hero-sub {
-        font-size: 16px;
-    }
-
-    .hero-content{
+    /* Slight upward bias for visual balance */
+    .hero-content {
         margin-top: -13vh;
     }
 
-                .hero-bg-logo {
-                    top: 50%;
-                    transform: translate(-55%, -75%);
-                    width: 110vw;
-                    /* makes it bigger but still responsive */
-                    opacity: 0.3;
-                    /* slightly more visible on small screens */
-                }
+    .hero-bg-logo {
+        top: 43%;
+        left: 45%;
+        transform: translate(-50%, -60%) scale(1.05);
+        width: 110vw;
+        opacity: 0;
+        animation: verseRevealMobile 2.5s ease forwards;
+    }
+
+    @keyframes verseRevealMobile {
+        to {
+            opacity: 0.25;
+            transform: translate(-50%, -60%) scale(1);
+        }
+    }
+
 }

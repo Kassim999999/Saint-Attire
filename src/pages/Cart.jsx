@@ -41,7 +41,8 @@ const handleCheckout = async () => {
 
 
   return (
-    <MainLayout>
+
+    <section>
       <h1 className="cart-title">YOUR CART</h1>
 
       {cart.length === 0 ? (
@@ -105,6 +106,6 @@ const handleCheckout = async () => {
 
         </div>
       )}
-    </MainLayout>
+ </section>
   )
 }

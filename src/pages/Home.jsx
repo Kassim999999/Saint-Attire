@@ -5,7 +5,6 @@ import "../styles/Home.css"
 
 export default function Home() {
   return (
-    <MainLayout>
       <section className="hero">
 
         {/* watermark background */}
@@ -16,9 +15,16 @@ export default function Home() {
           <Link to="/drop" className="hero-btn">
             ENTER DROP 01
           </Link>
+          <p className="hero-subline">
+  LIMITED. INTENTIONAL. RARE.
+</p>
         </div>
 
+        <div className="scroll-indicator">
+  ↓ SCROLL
+</div>
+
       </section>
-    </MainLayout>
+
   )
 }

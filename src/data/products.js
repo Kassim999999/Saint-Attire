@@ -20,7 +20,7 @@ export const products = [
     description: "Loose fit. Graphic-heavy design. Built for movement."
   },
     {
-    id: 1,
+    id: 3,
     name: "FLY PANT 001",
     price: 4500,
     stock: 25,
@@ -30,7 +30,7 @@ export const products = [
     description: "Relaxed street cut. Abstract panel print. Limited release."
   },
   {
-    id: 2,
+    id: 4,
     name: "FLY JORT 001",
     price: 3200,
     stock: 20,
@@ -40,7 +40,7 @@ export const products = [
     description: "Loose fit. Graphic-heavy design. Built for movement."
   },
     {
-    id: 1,
+    id: 5,
     name: "FLY PANT 001",
     price: 4500,
     stock: 25,
@@ -50,7 +50,7 @@ export const products = [
     description: "Relaxed street cut. Abstract panel print. Limited release."
   },
   {
-    id: 2,
+    id: 6,
     name: "FLY JORT 001",
     price: 3200,
     stock: 20,
