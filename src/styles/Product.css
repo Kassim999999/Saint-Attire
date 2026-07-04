@@ -371,3 +371,502 @@
     line-height: 1.8;
 
 }
+
+
+/* =====================================================
+   CART DRAWER OVERLAY
+===================================================== */
+
+.drawer-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0, 0, 0, .45);
+
+    backdrop-filter: blur(6px);
+
+    z-index: 9998;
+
+    animation: fadeIn .3s ease;
+
+}
+
+/* =====================================================
+   DRAWER
+===================================================== */
+
+.drawer {
+
+    position: fixed;
+
+    top: 0;
+
+    right: 0;
+
+    width: 420px;
+
+    max-width: 100%;
+
+    height: 100vh;
+
+    background: #fff;
+
+    z-index: 9999;
+
+    display: flex;
+
+    flex-direction: column;
+
+    animation: slideDrawer .35s ease;
+
+    box-shadow: -10px 0 40px rgba(0, 0, 0, .08);
+
+}
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.drawer-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 30px;
+
+    border-bottom: 1px solid #ececec;
+
+}
+
+.drawer-header h2 {
+
+    font-size: 24px;
+
+    letter-spacing: 2px;
+
+}
+
+.drawer-header button {
+
+    border: none;
+
+    background: none;
+
+    font-size: 24px;
+
+    cursor: pointer;
+
+    transition: .3s;
+
+}
+
+.drawer-header button:hover {
+
+    color: #9C0412;
+
+}
+
+/* =====================================================
+   ITEMS
+===================================================== */
+
+.drawer-items {
+
+    flex: 1;
+
+    overflow-y: auto;
+
+    padding: 25px;
+
+}
+
+.drawer-item {
+
+    display: grid;
+
+    grid-template-columns: 90px 1fr auto;
+
+    gap: 18px;
+
+    margin-bottom: 30px;
+
+    padding-bottom: 30px;
+
+    border-bottom: 1px solid #f1f1f1;
+
+}
+
+.drawer-item img {
+
+    width: 100%;
+
+    aspect-ratio: 4/5;
+
+    object-fit: cover;
+
+}
+
+.drawer-item h4 {
+
+    font-size: 15px;
+
+    margin-bottom: 6px;
+
+    letter-spacing: 1px;
+
+}
+
+.drawer-item span {
+
+    display: block;
+
+    color: #888;
+
+    font-size: 13px;
+
+    margin-bottom: 10px;
+
+}
+
+.drawer-item p {
+
+    font-weight: 600;
+
+    margin-bottom: 15px;
+
+}
+
+/* =====================================================
+   QUANTITY
+===================================================== */
+
+.qty {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+}
+
+.qty button {
+
+    width: 32px;
+
+    height: 32px;
+
+    border: 1px solid #ddd;
+
+    background: #fff;
+
+    cursor: pointer;
+
+    transition: .3s;
+
+}
+
+.qty button:hover {
+
+    background: #111;
+
+    color: #fff;
+
+}
+
+.qty span {
+
+    font-weight: 600;
+
+    color: #111;
+
+}
+
+/* =====================================================
+   REMOVE
+===================================================== */
+
+.remove {
+
+    border: none;
+
+    background: none;
+
+    font-size: 18px;
+
+    cursor: pointer;
+
+    color: #999;
+
+    transition: .3s;
+
+}
+
+.remove:hover {
+
+    color: #9C0412;
+
+}
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.drawer-footer {
+
+    border-top: 1px solid #ececec;
+
+    padding: 25px;
+
+}
+
+.subtotal {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 25px;
+
+    font-size: 18px;
+
+}
+
+.view-cart {
+
+    width: 100%;
+
+    padding: 18px;
+
+    background: #111;
+
+    color: #fff;
+
+    border: none;
+
+    cursor: pointer;
+
+    letter-spacing: 3px;
+
+    transition: .35s;
+
+}
+
+.view-cart:hover {
+
+    background: #9C0412;
+
+}
+
+/* =====================================================
+   LOADING
+===================================================== */
+
+.loading-page {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    min-height: 80vh;
+
+}
+
+.loading-page h1 {
+
+    font-size: 40px;
+
+}
+
+/* =====================================================
+   ANIMATIONS
+===================================================== */
+
+@keyframes slideDrawer {
+
+    from {
+
+        transform: translateX(100%);
+
+    }
+
+    to {
+
+        transform: translateX(0);
+
+    }
+
+}
+
+@keyframes fadeIn {
+
+    from {
+
+        opacity: 0;
+
+    }
+
+    to {
+
+        opacity: 1;
+
+    }
+
+}
+
+/* =====================================================
+   SCROLLBAR
+===================================================== */
+
+.drawer-items::-webkit-scrollbar {
+
+    width: 6px;
+
+}
+
+.drawer-items::-webkit-scrollbar-thumb {
+
+    background: #d0d0d0;
+
+    border-radius: 20px;
+
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:1000px) {
+
+    .product-wrapper {
+
+        grid-template-columns: 1fr;
+
+        gap: 60px;
+
+    }
+
+    .gallery {
+
+        position: static;
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .thumbs {
+
+        flex-direction: row;
+
+        order: 2;
+
+        justify-content: center;
+
+    }
+
+    .thumb {
+
+        width: 70px;
+
+    }
+
+    .details {
+
+        position: static;
+
+    }
+
+    .meta {
+
+        flex-direction: column;
+
+        gap: 20px;
+
+    }
+
+}
+
+@media(max-width:768px) {
+
+    .product-wrapper {
+
+        width: 95%;
+
+        margin: 30px auto 80px;
+
+    }
+
+    .main-image {
+
+        aspect-ratio: 1/1.2;
+
+    }
+
+    .details h1 {
+
+        font-size: 42px;
+
+    }
+
+    .price {
+
+        font-size: 20px;
+
+    }
+
+    .size-grid {
+
+        gap: 10px;
+
+    }
+
+    .size-grid button {
+
+        width: 52px;
+
+        height: 52px;
+
+    }
+
+    .drawer {
+
+        width: 100%;
+
+    }
+
+    .drawer-header {
+
+        padding: 22px;
+
+    }
+
+    .drawer-items {
+
+        padding: 18px;
+
+    }
+
+    .drawer-item {
+
+        grid-template-columns: 80px 1fr auto;
+
+        gap: 12px;
+
+    }
+
+    .shipping-box {
+
+        padding: 18px;
+
+    }
+
+}
