@@ -1,124 +1,214 @@
+/* ==========================
+   NAVBAR
+========================== */
+
 .navbar {
+
     position: fixed;
+
     top: 0;
     left: 0;
+
     width: 100%;
-    height: 80px;
+
+    height: 90px;
 
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-    /* push links to right */
+    justify-content: space-between;
 
     padding: 0 60px;
-    background: rgba(255, 255, 255, 0.85);
-    z-index: 1000;
 
-    /* REMOVED the border line */
-    border-bottom: none;
+    background: rgba(255, 255, 255, .92);
+
+    backdrop-filter: blur(18px);
+
+    z-index: 999;
+
+    transition: .35s;
+
 }
 
-/* LEFT MOTTO */
+/* ==========================
+   LEFT
+========================== */
+
 .nav-left {
-    position: absolute;
-    left: 60px;
-    display: flex;
-    align-items: center;
+
+    flex: 1;
+
 }
 
-.nav-motto {
-    font-size: 14px;
-    letter-spacing: 3px;
+.nav-tag {
+
+    font-size: 11px;
+
+    letter-spacing: 4px;
+
     color: #9C0412;
-    font-weight: 500;
-    white-space: nowrap;
-    /* prevents wrapping */
+
+    text-transform: uppercase;
+
 }
 
-/* PERFECTLY CENTERED LOGO */
-.nav-center {
+/* ==========================
+   LOGO
+========================== */
+
+.nav-logo-link {
+
     position: absolute;
+
     left: 50%;
+
     transform: translateX(-50%);
+
 }
 
 .nav-logo {
-    height: 150px;
-    object-fit: contain;
+
+    height: 120px;
+
+    transition: .35s;
+
 }
 
-/* RIGHT SIDE LINKS */
+.nav-logo:hover {
+
+    transform: scale(1.05);
+
+}
+
+/* ==========================
+   RIGHT
+========================== */
+
 .nav-right {
+
+    flex: 1;
+
     display: flex;
+
+    justify-content: flex-end;
+
     align-items: center;
+
+    gap: 35px;
+
 }
 
-.nav-right a {
-    margin-left: 40px;
-    text-decoration: none;
-    color: #9C0412;
-    font-size: 20px;
-    letter-spacing: 1px;
-    transition: 0.3s ease;
+.nav-link {
+
+    font-size: 14px;
+
+    letter-spacing: 3px;
+
+    color: #111;
+
+    text-transform: uppercase;
+
+    position: relative;
+
 }
 
-.cart {
-    height: 30px;
-    margin-bottom: -6px;
+.nav-link::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+
+    bottom: -8px;
+
+    width: 0;
+
+    height: 2px;
+
+    background: #9C0412;
+
+    transition: .35s;
+
 }
 
-.nav-right a:hover {
-    opacity: 0.6;
+.nav-link:hover::after {
+
+    width: 100%;
+
 }
 
-/* MOBILE */
-@media (max-width: 768px) {
+.nav-cart {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    color: #111;
+
+    font-size: 14px;
+
+}
+
+.cart-icon {
+
+    width: 24px;
+
+    transition: .3s;
+
+}
+
+.nav-cart:hover .cart-icon {
+
+    transform: scale(1.1);
+
+}
+
+/* ==========================
+   MOBILE
+========================== */
+
+@media(max-width:768px) {
 
     .navbar {
-        height: 65px;
-        padding: 0 18px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        /* logo centered base */
+
+        height: 70px;
+
+        padding: 0 20px;
+
     }
 
-    /* Hide motto on mobile */
-    .nav-left {
+    .nav-tag {
+
         display: none;
-    }
 
-    /* Perfect center logo */
-    .nav-center {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
     }
 
     .nav-logo {
-        height: 75px;
+
+        height: 78px;
+
     }
 
-    /* Right side clean alignment */
     .nav-right {
-        position: absolute;
-        right: 18px;
-        display: flex;
-        align-items: center;
-        gap: 14px;
+
+        gap: 18px;
+
     }
 
-    .nav-right a {
-        font-size: 13px;
-        letter-spacing: 1px;
-        margin: 0;
-        display: flex;
-        align-items: center;
-        gap: 4px;
+    .nav-link {
+
+        font-size: 12px;
+
+        letter-spacing: 2px;
+
     }
 
-    .cart {
-        height: 20px;
-        margin: 0;
+    .cart-icon {
+
+        width: 20px;
+
     }
+
 }

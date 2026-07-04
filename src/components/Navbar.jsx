@@ -1,34 +1,49 @@
-import { Link } from "react-router-dom"
-import { useCart } from "../context/CartContext"
-import logoIcon from "../assets/Saint-logo.png"
-import Cart from "../assets/shopping-cart.png"
-import "../styles/Navbar.css"
+import { Link } from "react-router-dom";
+import { useCart } from "../context/CartContext";
+import logoIcon from "../assets/Saint-logo.png";
+import Cart from "../assets/shopping-cart.png";
+import "../styles/Navbar.css";
 
 export default function Navbar() {
-
-    const { cartCount } = useCart()
+  const { cartCount } = useCart();
 
   return (
     <nav className="navbar">
 
-      {/* LEFT MOTTO */}
       <div className="nav-left">
-        <span className="nav-motto">WORN WITH INTENTION</span>
+        <span className="nav-tag">
+          WORN WITH INTENTION
+        </span>
       </div>
 
-      {/* CENTER LOGO */}
-      <Link to="/" className="nav-center">
-        <img src={logoIcon} alt="SAINT logo" className="nav-logo" />
+      <Link to="/" className="nav-logo-link">
+        <img
+          src={logoIcon}
+          alt="Saint Attire"
+          className="nav-logo"
+        />
       </Link>
 
-      {/* RIGHT SIDE */}
       <div className="nav-right">
-        <Link to="/drop">NEW</Link>
-        <Link to="/cart">
-          <img src={Cart} alt="cart" className="cart" /> ({cartCount})
+
+        <Link to="/drop" className="nav-link">
+          DROP 01
         </Link>
+
+        <Link to="/cart" className="nav-cart">
+
+          <img
+            src={Cart}
+            alt="Cart"
+            className="cart-icon"
+          />
+
+          <span>{cartCount}</span>
+
+        </Link>
+
       </div>
 
     </nav>
-  )
+  );
 }
