@@ -1,30 +1,65 @@
-import MainLayout from "../layouts/MainLayout"
-import { Link } from "react-router-dom"
-import starIcon from "../assets/msg.png"
-import "../styles/Home.css"
+import { Link } from "react-router-dom";
+import starIcon from "../assets/msg.png";
+import "../styles/Home.css";
 
 export default function Home() {
   return (
-      <section className="hero">
+    <section className="hero">
 
-        {/* watermark background */}
-        <img src={starIcon} className="hero-bg-logo" alt="logo" />
+      {/* Background Logo */}
+      <img
+        src={starIcon}
+        alt="Saint Attire"
+        className="hero-bg-logo"
+      />
 
-        {/* foreground */}
-        <div className="hero-content">
-          <Link to="/drop" className="hero-btn">
-            ENTER DROP 01
-          </Link>
-          <p className="hero-subline">
-  LIMITED. INTENTIONAL. RARE.
-</p>
-        </div>
+      {/* Decorative Text */}
+      <div className="hero-left">
+        EST. 2026
+      </div>
 
-        <div className="scroll-indicator">
-  ↓ SCROLL
-</div>
+      <div className="hero-right">
+        NAIROBI · KENYA
+      </div>
 
-      </section>
+      {/* Main Content */}
+      <div className="hero-content">
 
-  )
+        <span className="hero-brand">
+          SAINT ATTIRE
+        </span>
+
+        <h1 className="hero-title">
+          BUILT DIFFERENT.
+        </h1>
+
+        <p className="hero-description">
+          Every garment is crafted with intention,
+          produced in limited quantities,
+          and never mass produced.
+        </p>
+
+        <Link
+          to="/drop"
+          className="hero-btn"
+        >
+          SHOP DROP 01
+        </Link>
+
+        <p className="hero-subline">
+          LIMITED • INTENTIONAL • RARE
+        </p>
+
+      </div>
+
+      <div className="scroll-indicator">
+
+        <span>SCROLL</span>
+
+        <div className="scroll-line"></div>
+
+      </div>
+
+    </section>
+  );
 }

@@ -13,7 +13,7 @@ export default function Navbar() {
 
       {/* LEFT MOTTO */}
       <div className="nav-left">
-        <span className="nav-motto">WORK WITH INTENTION</span>
+        <span className="nav-motto">WORN WITH INTENTION</span>
       </div>
 
       {/* CENTER LOGO */}

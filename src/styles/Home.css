@@ -1,164 +1,369 @@
-/* =========================
-   HERO SECTION
-========================= */
+/* ==========================
+   HERO
+========================== */
 
 .hero {
     position: relative;
-    height: 100vh;
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #fff;
-    overflow: visible;
+
+    background: #fafafa;
 }
 
-/* =========================
-   HERO BACKGROUND VERSE
-   (Option 1 – Soft Fade + Scale)
-========================= */
+/* ==========================
+   BACKGROUND LOGO
+========================== */
 
 .hero-bg-logo {
+
     position: absolute;
+
     top: 50%;
     left: 45%;
-    transform: translate(-50%, -50%) scale(1.05);
 
     width: 90vw;
-    max-width: 1500px;
+    max-width: 1400px;
     height: auto;
 
-    opacity: 0;
+    transform: translate(-50%, -50%) scale(1);
+
+    opacity: .12;
+
     pointer-events: none;
 
-    animation: verseReveal 2.5s ease forwards;
+    animation:
+
+        reveal 2s ease forwards,
+
+        breathe 8s ease-in-out infinite;
+
 }
 
-@keyframes verseReveal {
-    to {
-        opacity: 0.2;
-        transform: translate(-50%, -50%) scale(1);
+@keyframes reveal {
+
+    from {
+
+        opacity: 0;
+
+        transform: translate(-50%, -50%) scale(1.08);
+
     }
+
+    to {
+
+        opacity: .18;
+
+        transform: translate(-50%, -50%) scale(1);
+
+    }
+
 }
 
-/* =========================
-   HERO CONTENT
-========================= */
+@keyframes breathe {
+
+    0%,
+    100% {
+
+        transform: translate(-50%, -50%) scale(1);
+
+    }
+
+    50% {
+
+        transform: translate(-50%, -50%) scale(1.03);
+
+    }
+
+}
+
+/* ==========================
+   CONTENT
+========================== */
 
 .hero-content {
+
     position: relative;
-    z-index: 2;
+
+    z-index: 5;
+
     text-align: center;
+
+    width: 90%;
+
+    max-width: 700px;
+
 }
 
-/* =========================
-   BUTTON + MICRO COPY
-========================= */
+/* Brand */
 
-.hero-btn,
-.hero-subline {
+.hero-brand {
+
+    display: block;
+
+    margin-bottom: 15px;
+
+    letter-spacing: 6px;
+
+    font-size: 12px;
+
+    color: #9C0412;
+
+    animation: fadeUp .8s forwards;
+
+}
+
+/* Heading */
+
+.hero-title {
+
+    font-size: clamp(48px, 8vw, 110px);
+
+    font-weight: 700;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 25px;
+
+    animation: fadeUp .8s .2s forwards;
+
     opacity: 0;
-    transform: translateY(15px);
+
+}
+
+/* Description */
+
+.hero-description {
+
+    max-width: 550px;
+
+    margin: auto;
+
+    margin-bottom: 40px;
+
+    color: #444;
+
+    line-height: 1.8;
+
+    font-size: 15px;
+
+    opacity: 0;
+
+    animation: fadeUp .8s .4s forwards;
+
 }
 
 /* Button */
 
 .hero-btn {
-    display: inline-block;
-    padding: 14px 38px;
-    border: 2px solid #9C0412;
-    text-decoration: none;
-    color: #9C0412;
-    font-size: 13px;
-    letter-spacing: 2px;
-    transition: 0.3s ease;
 
-    animation: heroFade 1s ease forwards;
+    display: inline-block;
+
+    padding: 16px 44px;
+
+    border: 2px solid #9C0412;
+
+    border-radius: 50px;
+
+    text-decoration: none;
+
+    color: #9C0412;
+
+    font-weight: 600;
+
+    letter-spacing: 2px;
+
+    transition: .35s;
+
+    opacity: 0;
+
+    animation: fadeUp .8s .6s forwards;
+
 }
 
 .hero-btn:hover {
+
     background: #9C0412;
+
     color: white;
+
+    transform: translateY(-2px);
+
 }
 
 /* Subline */
 
 .hero-subline {
-    margin-top: 18px;
-    font-size: 11px;
+
+    margin-top: 28px;
+
     letter-spacing: 4px;
-    text-transform: uppercase;
-    color: rgb(0, 0, 0);
 
-    animation: heroFade 1s ease forwards;
-    animation-delay: 0.4s;
+    font-size: 11px;
+
+    color: #555;
+
+    opacity: 0;
+
+    animation: fadeUp .8s .8s forwards;
+
 }
 
-/* Fade animation */
+/* ==========================
+   CORNERS
+========================== */
 
-@keyframes heroFade {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.hero-left {
+
+    position: absolute;
+
+    left: 40px;
+
+    bottom: 40px;
+
+    font-size: 11px;
+
+    letter-spacing: 4px;
+
+    color: #777;
+
 }
 
-/* =========================
-   SCROLL INDICATOR
-========================= */
+.hero-right {
+
+    position: absolute;
+
+    right: 40px;
+
+    bottom: 40px;
+
+    font-size: 11px;
+
+    letter-spacing: 4px;
+
+    color: #777;
+
+}
+
+/* ==========================
+   SCROLL
+========================== */
 
 .scroll-indicator {
+
     position: absolute;
-    bottom: 30px;
+
     left: 50%;
+
+    bottom: 40px;
+
     transform: translateX(-50%);
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 10px;
+
+    animation: float 2s infinite;
+
+}
+
+.scroll-indicator span {
+
     font-size: 10px;
-    letter-spacing: 4px;
-    opacity: 0.4;
-    animation: float 2.5s ease-in-out infinite;
+
+    letter-spacing: 5px;
+
+    color: #777;
+
+}
+
+.scroll-line {
+
+    width: 1px;
+
+    height: 45px;
+
+    background: #999;
+
 }
 
 @keyframes float {
 
-    0%,
-    100% {
-        transform: translateX(-50%) translateY(0px);
+    50% {
+
+        transform: translate(-50%, 8px);
+
     }
 
-    50% {
-        transform: translateX(-50%) translateY(6px);
-    }
 }
 
-/* =========================
-   MOBILE STYLES
-========================= */
+/* ==========================
+   FADE
+========================== */
 
-@media (max-width: 768px) {
+@keyframes fadeUp {
 
-    .hero {
-        height: 100vh;
-        overflow: hidden;
+    from {
+
+        opacity: 0;
+
+        transform: translateY(20px);
+
     }
 
-    /* Slight upward bias for visual balance */
-    .hero-content {
-        margin-top: -13vh;
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+    }
+
+}
+
+/* ==========================
+   MOBILE
+========================== */
+
+@media(max-width:768px) {
+
+    .hero-title {
+
+        font-size: 58px;
+
+    }
+
+    .hero-description {
+
+        font-size: 14px;
+
     }
 
     .hero-bg-logo {
-        top: 43%;
-        left: 45%;
-        transform: translate(-50%, -60%) scale(1.05);
-        width: 110vw;
-        opacity: 0;
-        animation: verseRevealMobile 2.5s ease forwards;
+
+        width: 120vw;
+
     }
 
-    @keyframes verseRevealMobile {
-        to {
-            opacity: 0.25;
-            transform: translate(-50%, -60%) scale(1);
-        }
+    .hero-left,
+    .hero-right {
+
+        display: none;
+
+    }
+
+    .scroll-line {
+
+        height: 30px;
+
     }
 
 }

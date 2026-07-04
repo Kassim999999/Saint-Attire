@@ -8,6 +8,7 @@ import Drop from "./pages/Drop";
 import Product from "./pages/Product";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
+import Success from "./pages/Success"
 import AdminLogin from "./pages/AdminLogin"
 
 import AdminLayout from "./layouts/AdminLayout";
@@ -69,6 +70,15 @@ function App() {
             element={
               <MainLayout>
                 <Checkout />
+              </MainLayout>
+            }
+          />
+
+          <Route
+            path="/success"
+            element={
+              <MainLayout>
+                <Success />
               </MainLayout>
             }
           />

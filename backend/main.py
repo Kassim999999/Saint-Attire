@@ -36,19 +36,20 @@ Base.metadata.create_all(bind=engine)
 # ------------------------------
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:5174", "http://localhost:5175"],
+    allow_origins=[
+        "http://localhost:5173",
+        "http://localhost:5174",
+        "http://localhost:5175"
+    ],
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 # ------------------------------
-# Paystack
+# CONFIG
 # ------------------------------
 PAYSTACK_SECRET_KEY = os.getenv("PAYSTACK_SECRET_KEY")
 
-# ------------------------------
-# JWT CONFIG
-# ------------------------------
 SECRET_KEY = os.getenv("SECRET_KEY", "super-secret-dev-key")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
@@ -59,14 +60,14 @@ ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "saint2026")
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 security = HTTPBearer()
 
-# Hash only once at startup
+# Hash admin password
 if len(ADMIN_PASSWORD.encode("utf-8")) > 72:
     ADMIN_PASSWORD = ADMIN_PASSWORD[:72]
 
 ADMIN_PASSWORD_HASH = pwd_context.hash(ADMIN_PASSWORD)
 
 # ------------------------------
-# Pydantic Schema
+# SCHEMAS
 # ------------------------------
 class OrderResponse(BaseModel):
     id: int
@@ -82,7 +83,6 @@ class OrderResponse(BaseModel):
     class Config:
         orm_mode = True
 
-from typing import Optional
 
 class ProductCreate(BaseModel):
     name: str
@@ -105,8 +105,13 @@ class ProductResponse(BaseModel):
     class Config:
         orm_mode = True
 
+
+class StatusUpdate(BaseModel):
+    status: str
+
+
 # ------------------------------
-# Auth helpers
+# AUTH HELPERS
 # ------------------------------
 def create_access_token(data: dict):
     to_encode = data.copy()
@@ -132,7 +137,7 @@ def get_current_admin(
 
 
 # ------------------------------
-# Routes
+# BASIC ROUTE
 # ------------------------------
 @app.get("/")
 def root():
@@ -140,14 +145,14 @@ def root():
 
 
 # ------------------------------
-# Admin Login
+# ADMIN LOGIN
 # ------------------------------
 @app.post("/admin/login")
 def admin_login(data: dict):
     password = data.get("password")
 
     if not password:
-        raise HTTPException(status_code=400, detail="Password is required")
+        raise HTTPException(status_code=400, detail="Password required")
 
     if not pwd_context.verify(password, ADMIN_PASSWORD_HASH):
         raise HTTPException(status_code=401, detail="Invalid credentials")
@@ -158,7 +163,7 @@ def admin_login(data: dict):
 
 
 # ------------------------------
-# Initialize Payment
+# INITIALIZE PAYMENT
 # ------------------------------
 @app.post("/initialize-payment")
 async def initialize_payment(request: Request):
@@ -195,67 +200,56 @@ async def initialize_payment(request: Request):
 
 
 # ------------------------------
-# Paystack Webhook
+# VERIFY PAYMENT (NEW)
 # ------------------------------
-@app.post("/paystack-webhook")
-async def paystack_webhook(
-    request: Request,
-    x_paystack_signature: str = Header(None),
-):
-    if x_paystack_signature is None:
-        raise HTTPException(status_code=400, detail="Missing signature")
+@app.get("/verify-payment/{reference}")
+def verify_payment(reference: str):
+    headers = {
+        "Authorization": f"Bearer {PAYSTACK_SECRET_KEY}",
+    }
 
-    raw_body = await request.body()
+    response = requests.get(
+        f"https://api.paystack.co/transaction/verify/{reference}",
+        headers=headers,
+    )
 
-    computed_hash = hmac.new(
-        PAYSTACK_SECRET_KEY.encode("utf-8"),
-        raw_body,
-        hashlib.sha512,
-    ).hexdigest()
-
-    if computed_hash != x_paystack_signature:
-        raise HTTPException(status_code=400, detail="Invalid signature")
-
-    payload = await request.json()
-
-    if payload.get("event") == "charge.success":
-        data = payload.get("data", {})
-        metadata = data.get("metadata", {})
-        customer = metadata.get("customer", {})
-
-        db: Session = SessionLocal()
-
-        new_order = Order(
-            full_name=customer.get("full_name"),
-            email=data.get("customer", {}).get("email"),
-            phone=customer.get("phone"),
-            address=customer.get("address"),
-            amount=data.get("amount", 0) / 100,
-            payment_reference=data.get("reference"),
-            status="paid",
-        )
-
-        db.add(new_order)
-        db.commit()
-        db.close()
-
-    return {"status": "received"}
+    return response.json()
 
 
 # ------------------------------
-# Get Orders (FIXED)
+# CREATE ORDER (USED BY SUCCESS PAGE)
+# ------------------------------
+@app.post("/create-order")
+def create_order(data: dict, db: Session = Depends(get_db)):
+    new_order = Order(
+        full_name=data.get("full_name"),
+        email=data.get("email"),
+        phone=data.get("phone"),
+        address=data.get("address"),
+        amount=data.get("amount"),
+        payment_reference=data.get("reference"),
+        status="paid",
+    )
+
+    db.add(new_order)
+    db.commit()
+
+    return {"message": "Order created"}
+
+
+# ------------------------------
+# GET ORDERS (ADMIN)
 # ------------------------------
 @app.get("/orders", response_model=List[OrderResponse])
 def get_orders(
     db: Session = Depends(get_db),
     admin: str = Depends(get_current_admin),
 ):
-    orders = db.query(Order).order_by(Order.id.desc()).all()
-    return orders
+    return db.query(Order).order_by(Order.id.desc()).all()
 
 
 # ------------------------------
-# Update Order Status
+# UPDATE ORDER STATUS (FIXED)
 # ------------------------------
 VALID_STATUSES = [
     "pending",
@@ -270,11 +264,11 @@ VALID_STATUSES = [
 @app.patch("/orders/{order_id}")
 def update_order_status(
     order_id: int,
-    status: str,
+    data: StatusUpdate,
     db: Session = Depends(get_db),
     admin: str = Depends(get_current_admin),
 ):
-    if status not in VALID_STATUSES:
+    if data.status not in VALID_STATUSES:
         raise HTTPException(status_code=400, detail="Invalid status")
 
     order = db.query(Order).filter(Order.id == order_id).first()
@@ -282,15 +276,14 @@ def update_order_status(
     if not order:
         raise HTTPException(status_code=404, detail="Order not found")
 
-    order.status = status
+    order.status = data.status
     db.commit()
-    db.refresh(order)
 
     return {"message": "Order updated"}
 
 
 # ------------------------------
-# Analytics
+# ANALYTICS
 # ------------------------------
 @app.get("/admin/analytics")
 def get_admin_analytics(
@@ -306,96 +299,33 @@ def get_admin_analytics(
         func.date(Order.created_at) == today
     ).count()
 
-    pending_orders = db.query(Order).filter(Order.status == "pending").count()
-    shipped_orders = db.query(Order).filter(Order.status == "shipped").count()
-    delivered_orders = db.query(Order).filter(Order.status == "delivered").count()
-
-    monthly_data = (
-        db.query(
-            func.strftime("%m", Order.created_at),
-            func.sum(Order.amount),
-        )
-        .group_by(func.strftime("%m", Order.created_at))
-        .all()
-    )
-
-    monthly_revenue = {month: revenue for month, revenue in monthly_data}
-
     return {
         "total_revenue": total_revenue,
         "total_orders": total_orders,
         "orders_today": orders_today,
-        "pending_orders": pending_orders,
-        "shipped_orders": shipped_orders,
-        "delivered_orders": delivered_orders,
-        "monthly_revenue": monthly_revenue,
     }
 
 
 # ------------------------------
-# CSV Export
+# PRODUCTS
 # ------------------------------
-@app.get("/admin/export-orders")
-def export_orders(
-    db: Session = Depends(get_db),
-    admin: str = Depends(get_current_admin),
-):
-    orders = db.query(Order).all()
-
-    output = StringIO()
-    writer = csv.writer(output)
-
-    writer.writerow([
-        "ID",
-        "Full Name",
-        "Email",
-        "Phone",
-        "Address",
-        "Amount",
-        "Status",
-        "Created At",
-    ])
-
-    for order in orders:
-        writer.writerow([
-            order.id,
-            order.full_name,
-            order.email,
-            order.phone,
-            order.address,
-            order.amount,
-            order.status,
-            order.created_at,
-        ])
-
-    output.seek(0)
-
-    return StreamingResponse(
-        output,
-        media_type="text/csv",
-        headers={"Content-Disposition": "attachment; filename=orders.csv"},
-    )
-
-
 @app.post("/admin/products", response_model=ProductResponse)
 def create_product(
     product: ProductCreate,
     db: Session = Depends(get_db),
     admin: str = Depends(get_current_admin),
 ):
-
     new_product = Product(**product.dict())
-
     db.add(new_product)
     db.commit()
     db.refresh(new_product)
-
     return new_product
 
 
 @app.get("/products", response_model=List[ProductResponse])
 def get_products(db: Session = Depends(get_db)):
     return db.query(Product).order_by(Product.id.desc()).all()
+
 
 @app.get("/products/{product_id}", response_model=ProductResponse)
 def get_single_product(product_id: int, db: Session = Depends(get_db)):
@@ -407,46 +337,9 @@ def get_single_product(product_id: int, db: Session = Depends(get_db)):
     return product
 
 
-@app.put("/admin/products/{product_id}")
-def update_product(
-    product_id: int,
-    product: ProductCreate,
-    db: Session = Depends(get_db),
-    admin: str = Depends(get_current_admin),
-):
-
-    db_product = db.query(Product).filter(Product.id == product_id).first()
-
-    if not db_product:
-        raise HTTPException(status_code=404, detail="Product not found")
-
-    for key, value in product.dict().items():
-        setattr(db_product, key, value)
-
-    db.commit()
-    db.refresh(db_product)
-
-    return db_product
-
-
-@app.delete("/admin/products/{product_id}")
-def delete_product(
-    product_id: int,
-    db: Session = Depends(get_db),
-    admin: str = Depends(get_current_admin),
-):
-
-    product = db.query(Product).filter(Product.id == product_id).first()
-
-    if not product:
-        raise HTTPException(status_code=404, detail="Product not found")
-
-    db.delete(product)
-    db.commit()
-
-    return {"message": "Product deleted"}
-
-
+# ------------------------------
+# UPLOADS
+# ------------------------------
 @app.post("/upload")
 async def upload_image(file: UploadFile = File(...)):
     file_location = f"uploads/{file.filename}"
@@ -455,6 +348,7 @@ async def upload_image(file: UploadFile = File(...)):
         shutil.copyfileobj(file.file, buffer)
 
     return {"image_url": f"http://127.0.0.1:8000/uploads/{file.filename}"}
+
 
 from fastapi.staticfiles import StaticFiles
 

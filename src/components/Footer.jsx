@@ -8,7 +8,7 @@ export default function Footer() {
       <div className="footer-top">
         <div className="footer-brand">
           <img src={fullLogo} alt="SAINT logo" className="footer-logo" />
-          <p>Work With Intention</p>
+          <p>Worn With Intention</p>
         </div>
 
         <div className="footer-links">

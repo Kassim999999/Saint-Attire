@@ -1,19 +1,21 @@
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import MainLayout from "../layouts/MainLayout"
 import { useCart } from "../context/CartContext"
 import "../styles/Product.css"
+import Bag from "../assets/Bag.png"
 
 export default function Product() {
   const { id } = useParams()
+  const navigate = useNavigate()
 
   const [product, setProduct] = useState(null)
   const [selectedSize, setSelectedSize] = useState(null)
-  const [added, setAdded] = useState(false)
+  const [showModal, setShowModal] = useState(false)
 
-  const { addToCart } = useCart()
+  const { cart, addToCart, removeFromCart, updateQuantity, subtotal, cartCount } = useCart()
 
-  // 🔥 Fetch product from backend
+  // Fetch product
   useEffect(() => {
     fetch(`http://127.0.0.1:8000/products/${id}`)
       .then((res) => res.json())
@@ -21,7 +23,7 @@ export default function Product() {
       .catch((err) => console.error("Fetch product error:", err))
   }, [id])
 
-  // Loading state
+  // Loading
   if (!product) {
     return (
       <MainLayout>
@@ -37,8 +39,18 @@ export default function Product() {
       <div className="product-page">
 
         {/* IMAGE */}
-        <div className="product-image">
-          <img src={product.image} alt={product.name} />
+        <div className="product-image-wrapper">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="product-img primary"
+          />
+
+          <img
+            src={product.image2 || product.image}
+            alt={product.name}
+            className="product-img secondary"
+          />
         </div>
 
         {/* INFO */}
@@ -57,7 +69,7 @@ export default function Product() {
             {product.stock} pieces left
           </p>
 
-          {/* SIZES (fallback if backend doesn’t provide) */}
+          {/* SIZES */}
           <div className="size-selector">
             {(product.sizes || ["S", "M", "L"]).map((size) => (
               <button
@@ -76,19 +88,105 @@ export default function Product() {
             disabled={!selectedSize}
             onClick={() => {
               addToCart(product, selectedSize)
-              setAdded(true)
-              setTimeout(() => setAdded(false), 1500)
+              setShowModal(true)
             }}
           >
-            {added
-              ? "ADDED ✓"
-              : selectedSize
-              ? "ADD TO CART"
-              : "SELECT SIZE"}
+            {selectedSize ? "ADD TO CART" : "SELECT SIZE"}
           </button>
-
         </div>
       </div>
+
+{/* ===== CART DRAWER ===== */}
+{showModal && (
+  <>
+    {/* Overlay */}
+    <div
+      className="cart-drawer-overlay"
+      onClick={() => setShowModal(false)}
+    ></div>
+
+    {/* Drawer */}
+    <div className="cart-drawer">
+
+      {/* Header */}
+      <div className="cart-drawer-header">
+        <h2>Your Cart ({cartCount})</h2>
+        <button onClick={() => setShowModal(false)}>✕</button>
+      </div>
+
+      {/* ITEMS */}
+      <div className="cart-items">
+        {cart.length === 0 ? (
+          <p className="empty-cart">Your cart is empty</p>
+        ) : (
+          cart.map((item) => (
+            <div
+              key={`${item.id}-${item.selectedSize}`}
+              className="cart-item"
+            >
+              <img src={item.image} alt={item.name} />
+
+              <div className="cart-item-info">
+                <p>{item.name}</p>
+                <p className="size">Size: {item.selectedSize}</p>
+                <p className="price">KSH {item.price}</p>
+
+                {/* Quantity Controls */}
+                <div className="qty-controls">
+                  <button onClick={() => updateQuantity(item.id, item.selectedSize, -1)}>
+                    -
+                  </button>
+
+                  <span>{item.quantity}</span>
+
+                  <button onClick={() => updateQuantity(item.id, item.selectedSize, 1)}>
+                    +
+                  </button>
+                </div>
+              </div>
+
+              {/* Remove */}
+              <button
+                className="remove"
+                onClick={() => removeFromCart(item.id, item.selectedSize)}
+              >
+                ✕
+              </button>
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* FOOTER */}
+      {cart.length > 0 && (
+        <div className="cart-footer">
+
+          <div className="cart-total">
+            <span>Total</span>
+            <span>KSH {subtotal}</span>
+          </div>
+          <div className="fbtn">
+          <button
+            className="go-cart"
+            onClick={() => navigate("/cart")}
+          >
+            VIEW CART
+          </button>
+
+          <button
+            className="continue"
+            onClick={() => navigate("/drop")}
+          >
+            <i class="fa-solid fa-cart-plus"></i>
+          </button>
+          </div>
+
+        </div>
+      )}
+
+    </div>
+  </>
+)}
     </MainLayout>
   )
 }
