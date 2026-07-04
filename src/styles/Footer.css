@@ -1,73 +1,333 @@
+/* ===========================
+   FOOTER
+=========================== */
+
 .footer {
-    background: #ffffff;
-    color: #000000;
-    padding: 80px 60px 40px;
-    margin-top: 120px;
+
+    background: #fff;
+
+    padding: 100px 80px 50px;
+
+    color: #111;
+
 }
 
-.footer-top {
+/* ===========================
+   NEWSLETTER
+=========================== */
+
+.footer-newsletter {
+
+    max-width: 650px;
+
+    margin: 0 auto 80px;
+
+    text-align: center;
+
+}
+
+.footer-newsletter h2 {
+
+    font-size: 42px;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 20px;
+
+}
+
+.footer-newsletter p {
+
+    color: #666;
+
+    line-height: 1.8;
+
+    margin-bottom: 35px;
+
+}
+
+.newsletter-form {
+
     display: flex;
-    justify-content: space-between;
+
+    justify-content: center;
+
+    gap: 12px;
+
     flex-wrap: wrap;
-    gap: 10px;
+
+}
+
+.newsletter-form input {
+
+    width: 320px;
+
+    padding: 16px 20px;
+
+    border: 1px solid #ddd;
+
+    font-size: 14px;
+
+    outline: none;
+
+}
+
+.newsletter-form button {
+
+    padding: 16px 38px;
+
+    background: #9C0412;
+
+    color: white;
+
+    border: none;
+
+    letter-spacing: 2px;
+
+    transition: .3s;
+
+}
+
+.newsletter-form button:hover {
+
+    background: #70030d;
+
+}
+
+/* ===========================
+   DIVIDER
+=========================== */
+
+.footer-divider {
+
+    width: 100%;
+
+    height: 1px;
+
+    background: #e8e8e8;
+
+    margin: 60px 0;
+
+}
+
+/* ===========================
+   MAIN
+=========================== */
+
+.footer-top {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 80px;
+
+    flex-wrap: wrap;
+
+}
+
+/* ===========================
+   BRAND
+=========================== */
+
+.footer-brand {
+
+    max-width: 320px;
+
 }
 
 .footer-logo {
-    width: 260px;
-    margin-bottom: -80px;
+
+    width: 280px;
+
     margin-left: -80px;
+
+    margin-bottom: -80px;
+
 }
 
-.footer-brand p {
-    font-size: 13px;
-    opacity: 0.7;
-    margin-top: 10px;
+.brand-text {
+
+    line-height: 1.8;
+
+    color: #666;
+
 }
+
+/* ===========================
+   LINKS
+=========================== */
 
 .footer-links {
+
     display: flex;
-    gap: 80px;
+
+    gap: 100px;
+
+    flex-wrap: wrap;
+
 }
 
 .footer-links h4 {
-    color: #ca1010;
+
+    color: #9C0412;
+
+    margin-bottom: 22px;
+
     font-size: 12px;
-    letter-spacing: 2px;
-    margin-bottom: 20px;
+
+    letter-spacing: 3px;
+
 }
 
 .footer-links a {
+
     display: block;
-    font-size: 13px;
-    margin-bottom: 10px;
-    text-decoration: none;
-    color: rgb(0, 0, 0);
-    opacity: 0.8;
-    transition: 0.3s;
+
+    margin-bottom: 14px;
+
+    color: #555;
+
+    transition: .3s;
+
 }
 
 .footer-links a:hover {
-    opacity: 1;
+
+    color: #9C0412;
+
 }
+
+/* ===========================
+   SOCIAL
+=========================== */
+
+.footer-social {
+
+    display: flex;
+
+    gap: 14px;
+
+}
+
+.footer-social a {
+
+    width: 42px;
+
+    height: 42px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    transition: .3s;
+
+}
+
+.footer-social a:hover {
+
+    background: #111;
+
+    color: white;
+
+    border-color: #111;
+
+    transform: translateY(-3px);
+
+}
+
+/* ===========================
+   BOTTOM
+=========================== */
 
 .footer-bottom {
-    margin-top: 60px;
-    font-size: 12px;
-    opacity: 0.6;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 20px;
+
+    color: #777;
+
+    font-size: 13px;
+
 }
 
+.footer-bottom span {
 
-@media (max-width: 768px) {
+    letter-spacing: 3px;
+
+    font-size: 11px;
+
+}
+
+/* ===========================
+   MOBILE
+=========================== */
+
+@media(max-width:768px) {
+
     .footer {
-        padding: 60px 20px 40px;
+
+        padding: 70px 25px 40px;
+
+    }
+
+    .footer-newsletter h2 {
+
+        font-size: 32px;
+
+    }
+
+    .newsletter-form {
+
+        flex-direction: column;
+
+    }
+
+    .newsletter-form input {
+
+        width: 100%;
+
+    }
+
+    .newsletter-form button {
+
+        width: 100%;
+
     }
 
     .footer-top {
+
         flex-direction: column;
+
+        gap: 50px;
+
     }
 
     .footer-links {
-        flex-direction: column;
-        gap: 40px;
+
+        gap: 45px;
+
     }
+
+    .footer-bottom {
+
+        flex-direction: column;
+
+        text-align: center;
+
+    }
+
 }
