@@ -91,24 +91,40 @@ const updateQuantity = (id, size, amount) => {
 
 useEffect(() => {
   const syncCart = async () => {
-    const res = await fetch("http://127.0.0.1:8000/products")
-    const products = await res.json()
+    try {
+      const res = await fetch("http://127.0.0.1:8000/products")
 
-    setCart((prevCart) =>
-      prevCart.map((item) => {
-        const updatedProduct = products.find(p => p.id === item.id)
+      if (!res.ok) {
+        throw new Error("Failed to fetch products")
+      }
 
-        if (!updatedProduct) return item
+      const data = await res.json()
 
-        return {
-          ...item,
-          price: updatedProduct.price,
-          name: updatedProduct.name,
-          image: updatedProduct.image,
-          stock: updatedProduct.stock
-        }
-      })
-    )
+      // Handle both possible API response formats
+      const products = Array.isArray(data)
+        ? data
+        : data.products || []
+
+      setCart((prevCart) =>
+        prevCart.map((item) => {
+          const updatedProduct = products.find(
+            (p) => p.id === item.id
+          )
+
+          if (!updatedProduct) return item
+
+          return {
+            ...item,
+            price: updatedProduct.price,
+            name: updatedProduct.name,
+            image: updatedProduct.image,
+            stock: updatedProduct.stock
+          }
+        })
+      )
+    } catch (error) {
+      console.error("Failed to sync cart:", error)
+    }
   }
 
   syncCart()

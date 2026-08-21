@@ -8,17 +8,26 @@ export default function Drop() {
 
   // Fetch Products
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/products")
-      .then((res) => res.json())
-      .then((data) => {
-        setProducts(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Fetch products error:", err);
-        setLoading(false);
-      });
-  }, []);
+  fetch("http://127.0.0.1:8000/products")
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error(`HTTP error: ${res.status}`);
+      }
+
+      return res.json();
+    })
+    .then((data) => {
+      console.log("PRODUCT API RESPONSE:", data);
+
+      setProducts(data.products);
+      setLoading(false);
+    })
+    .catch((err) => {
+      console.error("Fetch products error:", err);
+      setProducts([]);
+      setLoading(false);
+    });
+}, []);
 
   // Fade in cards
   useEffect(() => {

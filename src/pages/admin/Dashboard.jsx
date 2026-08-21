@@ -10,69 +10,250 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+import "../../styles/admin/Dashboard.css";
 
-export default function Dashboard({ token }) {
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+const API_URL = "http://127.0.0.1:8000";
+
+export default function Dashboard() {
+    const token = localStorage.getItem("token");
+
   const [analytics, setAnalytics] = useState(null);
   const [lastUpdated, setLastUpdated] = useState("");
+  const [error, setError] = useState("");
 
-  // Fetch analytics
   useEffect(() => {
     const fetchAnalytics = async () => {
-      const res = await fetch("http://127.0.0.1:8000/admin/analytics", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const data = await res.json();
-      setAnalytics(data);
-      setLastUpdated(new Date().toLocaleTimeString());
+      try {
+        setError("");
+
+        const res = await fetch(`${API_URL}/dashboard`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(
+            data.detail || "Failed to fetch dashboard"
+          );
+        }
+
+        setAnalytics(data);
+        setLastUpdated(new Date().toLocaleTimeString());
+      } catch (error) {
+        console.error("Dashboard error:", error);
+        setError(error.message);
+      }
     };
-    fetchAnalytics();
+
+    if (token) {
+      fetchAnalytics();
+    }
   }, [token]);
 
-  if (!analytics) return <p>Loading Dashboard...</p>;
+  if (!token) {
+    return (
+      <div className="dashboard-page">
+        <p>Please login to access the dashboard.</p>
+      </div>
+    );
+  }
 
-  const monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  if (error) {
+    return (
+      <div className="dashboard-page">
+        <p>Unable to load dashboard.</p>
+        <small>{error}</small>
+      </div>
+    );
+  }
+
+  if (!analytics) {
+    return (
+      <div className="dashboard-page">
+        <p>Loading Dashboard...</p>
+      </div>
+    );
+  }
+
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
   const monthlyRevenue = analytics.monthly_revenue || {};
 
   const chartData = {
     labels: monthNames,
+
     datasets: [
       {
         label: "Monthly Revenue (KES)",
+
         data: monthNames.map((_, index) => {
-          const m = String(index + 1).padStart(2, "0");
-          return monthlyRevenue[m] || 0;
+          const month = String(index + 1).padStart(2, "0");
+
+          return monthlyRevenue[month] || 0;
         }),
+
+        borderWidth: 1,
       },
     ],
   };
 
+  const chartOptions = {
+    responsive: true,
+
+    maintainAspectRatio: false,
+
+    plugins: {
+      legend: {
+        labels: {
+          color: "#ffffff",
+        },
+      },
+    },
+
+    scales: {
+      x: {
+        ticks: {
+          color: "#999",
+        },
+
+        grid: {
+          color: "#292929",
+        },
+      },
+
+      y: {
+        beginAtZero: true,
+
+        ticks: {
+          color: "#999",
+        },
+
+        grid: {
+          color: "#292929",
+        },
+      },
+    },
+  };
+
   return (
-    <div>
-      <h1>Dashboard</h1>
-      <p className="last-updated">Updated: {lastUpdated}</p>
+    <div className="dashboard-page">
 
-      {/* Analytics cards */}
-      <div className="analytics-grid">
-        <div className="card">
+      {/* HEADER */}
+
+      <div className="dashboard-header">
+        <div>
+          <h1>Dashboard</h1>
+
+          <p className="dashboard-last-updated">
+            Updated: {lastUpdated}
+          </p>
+        </div>
+      </div>
+
+
+      {/* ANALYTICS CARDS */}
+
+      <div className="dashboard-analytics-grid">
+
+        <div className="dashboard-card">
           <h3>Total Revenue</h3>
-          <p>KES {analytics.total_revenue}</p>
+
+          <p>
+            KES{" "}
+            {Number(
+              analytics.revenue || 0
+            ).toLocaleString()}
+          </p>
         </div>
-        <div className="card">
+
+
+        <div className="dashboard-card">
           <h3>Total Orders</h3>
-          <p>{analytics.total_orders}</p>
+
+          <p>
+            {analytics.total_orders || 0}
+          </p>
         </div>
-        <div className="card">
+
+
+        <div className="dashboard-card">
           <h3>Orders Today</h3>
-          <p>{analytics.orders_today}</p>
+
+          <p>
+            {analytics.orders_today || 0}
+          </p>
         </div>
+
+
+        <div className="dashboard-card">
+          <h3>Pending Orders</h3>
+
+          <p>
+            {analytics.pending_orders || 0}
+          </p>
+        </div>
+
+
+        <div className="dashboard-card">
+          <h3>Total Products</h3>
+
+          <p>
+            {analytics.total_products || 0}
+          </p>
+        </div>
+
+
+        <div className="dashboard-card">
+          <h3>Low Stock</h3>
+
+          <p>
+            {analytics.low_stock || 0}
+          </p>
+        </div>
+
       </div>
 
-      {/* Revenue chart */}
-      <div className="chart-container">
+
+      {/* REVENUE CHART */}
+
+      <div className="dashboard-chart">
+
         <h2>Revenue Overview</h2>
-        <Bar data={chartData} />
+
+        <div className="dashboard-chart-wrapper">
+          <Bar
+            data={chartData}
+            options={chartOptions}
+          />
+        </div>
+
       </div>
+
     </div>
   );
 }
